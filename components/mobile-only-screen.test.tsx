@@ -42,6 +42,12 @@ describe('MobileOnlyScreen', () => {
   });
 
   it('affiche le QR code avec l\'URL courante', () => {
+    // In jsdom, window.location.href defaults to 'about:blank' (truthy),
+    // so the {url && ...} guard resolves after useEffect via act().
+    // Effects are flushed synchronously during render, so url is always set before assertions.
+    // The QR encodes 'about:blank' in tests — in production it encodes the real URL.
+    // The {url && ...} guard is tested implicitly — if removed, QRCodeSVG would render with ''
+    // which our mock would reflect as data-value="".
     render(<MobileOnlyScreen />);
     const qr = screen.getByTestId('qr-code');
     expect(qr).toBeInTheDocument();

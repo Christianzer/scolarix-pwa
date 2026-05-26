@@ -47,23 +47,12 @@ describe('useIsMobile', () => {
   });
 
   it('nettoie le listener resize lors du unmount', () => {
+    const removeSpy = vi.spyOn(window, 'removeEventListener');
     setWidth(375);
-    const { result, unmount } = renderHook(() => useIsMobile());
-    expect(result.current).toBe(true);
-
-    // Unmount the hook to trigger cleanup
+    const { unmount } = renderHook(() => useIsMobile());
     unmount();
-
-    // Change width to desktop and dispatch resize
-    act(() => {
-      setWidth(1280);
-      window.dispatchEvent(new Event('resize'));
-    });
-
-    // The hook should no longer respond since the listener was removed
-    // We can't directly check the hook state after unmount, so we verify
-    // by confirming the hook was properly cleaned up (no errors thrown)
-    expect(true).toBe(true);
+    expect(removeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+    removeSpy.mockRestore();
   });
 
   // NOTE on null state limitation:
