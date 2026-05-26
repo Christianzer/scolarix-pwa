@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import authService from '@/services/auth.service';
@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 
 const RESEND_DELAY = 60;
 
-export default function VerifyOtpPage() {
+function VerifyOtpForm() {
   const router       = useRouter();
   const params       = useSearchParams();
   const email        = params.get('email') ?? '';
@@ -18,9 +18,9 @@ export default function VerifyOtpPage() {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [code,     setCode]     = useState('');
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState('');
+  const [code,      setCode]      = useState('');
+  const [loading,   setLoading]   = useState(false);
+  const [error,     setError]     = useState('');
   const [countdown, setCountdown] = useState(RESEND_DELAY);
 
   useEffect(() => {
@@ -127,5 +127,13 @@ export default function VerifyOtpPage() {
         </button>
       </div>
     </main>
+  );
+}
+
+export default function VerifyOtpPage() {
+  return (
+    <Suspense>
+      <VerifyOtpForm />
+    </Suspense>
   );
 }
