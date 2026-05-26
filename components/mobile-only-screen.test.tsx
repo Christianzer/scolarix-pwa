@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { MobileOnlyScreen } from '@/components/mobile-only-screen';
 
 vi.mock('qrcode.react', () => ({
-  QRCodeSVG: ({ 'aria-label': ariaLabel }: { 'aria-label'?: string }) => (
-    <svg aria-label={ariaLabel} data-testid="qr-code" />
+  QRCodeSVG: ({ 'aria-label': ariaLabel, value }: { 'aria-label'?: string; value?: string }) => (
+    <svg aria-label={ariaLabel} data-testid="qr-code" data-value={value} />
   ),
 }));
 
@@ -41,8 +41,10 @@ describe('MobileOnlyScreen', () => {
     expect(screen.getByAltText('Scolarix')).toBeInTheDocument();
   });
 
-  it('affiche le QR code', () => {
+  it('affiche le QR code avec l\'URL courante', () => {
     render(<MobileOnlyScreen />);
-    expect(screen.getByTestId('qr-code')).toBeInTheDocument();
+    const qr = screen.getByTestId('qr-code');
+    expect(qr).toBeInTheDocument();
+    expect(qr).toHaveAttribute('data-value', window.location.href);
   });
 });

@@ -29,16 +29,18 @@ export function MobileOnlyScreen() {
       </p>
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col items-center gap-3 w-full max-w-xs">
         {url && (
-          <QRCodeSVG
-            value={url}
-            size={160}
-            aria-label="QR Code Scolarix"
-          />
+          <>
+            <QRCodeSVG
+              value={url}
+              size={160}
+              aria-label="QR Code Scolarix"
+            />
+            <p className="text-xs text-slate-400 text-center leading-relaxed">
+              Scannez ce code QR pour ouvrir Scolarix et afficher
+              l&apos;application sur votre mobile.
+            </p>
+          </>
         )}
-        <p className="text-xs text-slate-400 text-center leading-relaxed">
-          Scannez ce code QR pour ouvrir Scolarix et afficher
-          l&apos;application sur votre mobile.
-        </p>
       </div>
     </div>
   );
