@@ -72,7 +72,7 @@ jobs:
 
             echo "── [4/5] Redémarrage PM2 ──"
             pm2 restart scolarix-web --update-env 2>/dev/null || \
-              pm2 start npm --name "scolarix-web" -- start -- -p 3003
+              pm2 start npm --name "scolarix-web" --cwd /var/www/scolarix-web -- start -- -p 3003
             pm2 save
 
             echo "── [5/5] Vérification ──"
