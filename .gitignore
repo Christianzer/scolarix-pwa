@@ -50,3 +50,6 @@ AGENTS.md
 /public/sw.js.map
 /public/workbox-*.js
 /public/workbox-*.js.map
+
+# Superpowers brainstorm sessions
+.superpowers/
